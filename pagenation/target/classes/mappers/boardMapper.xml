@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.pagenation.mappers.board">
+<select id="list" resultType="com.spring.pagenation.domain.BoardVO">
+<![CDATA[
+select bno, title, content, writer, regDate, viewCnt from tbl_board
+]]>
+</select>
+<insert id="write" parameterType="com.spring.pagenation.domain.BoardVO">
+<![CDATA[
+insert into tbl_board(title, content, writer) values (#{title}, #{content}, #{writer})
+]]><!-- 게시물 목록을 만들었을때는 resultType[데이터를 쿼리를 실행한뒤 결과가 있을경우] 반대로 데이터를 넣을때는 파라미터 타입을 사용합니다-->
+</insert>
+<select id="view" parameterType="int" resultType="com.spring.pagenation.domain.BoardVO">
+select bno, title, content, writer, regDate, viewCnt from tbl_board where bno = #{bno}
+</select>
+<update id="modify" parameterType="com.spring.pagenation.domain.BoardVO">
+<![CDATA[
+update tbl_board set title = #{title}, content=#{content}, writer=#{writer} where bno = #{bno}
+]]>
+</update>
+<delete id="delete" parameterType="int">
+<![CDATA[
+delete from tbl_board where bno = #{bno}
+]]>
+</delete>
+<select id="count" resultType="int">
+<![CDATA[
+select count(bno) from tbl_board
+]]>
+</select>
+<select id="listPage" parameterType="hashMap" resultType="com.spring.pagenation.domain.BoardVO">
+<![CDATA[
+select bno, title, writer, regDate, viewCnt from tbl_board
+order by bno desc limit #{displayPost}, #{postNum}
+]]>
+</select>
+<select id="listPageSearch" parameterType="hashMap" resultType="com.spring.pagenation.domain.BoardVO">
+<![CDATA[
+select bno, title, writer, regDate, viewCnt from tbl_board
+]]>
+<if test='searchType.equals("title")'>
+WHERE title LIKE concat('%', #{keyword}, '%')
+</if>
+<if test='searchType.equals("content")'>
+WHERE content LIKE concat('%', #{keyword}, '%')
+</if>
+<if test='searchType.equals("title_content")'>
+WHERE title LIKE concat('%', #{keyword}, '%') or content LIKE concat('%', #{keyword}, '%')
+</if>
+<if test='searchType.equals("writer")'>
+WHERE writer LIKE concat('%', #{keyword}, '%')
+</if>
+order by bno desc limit #{displayPost}, #{postNum}
+</select><!-- dao에서 문자열 데이터를 받을때 '%${keyword}%'는  '%'keyword'%' 에러가 발생할수 있다-->
+<select id="searchCount" parameterType="hashMap" resultType="int">
+<![CDATA[
+select count(bno) from tbl_board
+]]>
+<if test='searchType.equals("title")'>
+WHERE title LIKE concat('%', #{keyword}, '%')
+</if>
+<if test='searchType.equals("content")'>
+WHERE content LIKE concat('%', #{keyword}, '%')
+</if>
+<if test='searchType.equals("title_content")'>
+WHERE title LIKE concat('%', #{keyword}, '%') or content LIKE concat('%', #{keyword}, '%')
+</if>
+<if test='searchType.equals("writer")'>
+WHERE writer LIKE concat('%', #{keyword}, '%')
+</if>
+</select>
+</mapper>

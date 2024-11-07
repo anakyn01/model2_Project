@@ -1,0 +1,15 @@
+com\spring\shop\domain\CategoryVO.class
+com\spring\shop\controller\shopController.class
+com\spring\shop\controller\MemberController.class
+com\spring\shop\persistence\MemberDAO.class
+com\spring\shop\interceptor\AdminInterceptor.class
+com\spring\shop\service\AdminService.class
+com\spring\shop\persistence\AdminDAOImpl.class
+com\spring\shop\service\MemberService.class
+com\spring\shop\service\AdminServiceImpl.class
+com\spring\shop\service\MemberServiceImpl.class
+com\spring\shop\persistence\AdminDAO.class
+com\spring\shop\domain\MemberVO.class
+com\spring\shop\domain\GoodsVO.class
+com\spring\shop\persistence\MemberDAOImpl.class
+com\spring\shop\controller\AdminController.class

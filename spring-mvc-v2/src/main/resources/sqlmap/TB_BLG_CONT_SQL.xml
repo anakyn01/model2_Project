@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TB_BLG_CONT">
+<insert id="insert" parameterType="hashMap">
+<selectKey keyProperty="seq_blg_cont" resultType="java.lang.Integer" order="BEFORE">
+select SEQ_BLG_CONT.NEXTVAL from dual
+</selectKey>
+<![CDATA[
+insert into TB_BLG_CONT
+(BLG_CONT_SEQ, TITLE, CONT_BDY)
+values
+(#{seq_blg_cont}, #{title}, #{content_body})
+]]>
+</insert>
+<select id="selectOne" parameterType="java.lang.Integer" resultType="hashMap">
+<![CDATA[
+select
+BLG_CONT_SEQ,
+TITLE,
+TO_CHAR(CONT_BDY) as CONT_BDY,
+INSERT_DT
+from
+TB_BLG_CONT
+where
+BLG_CONT_SEQ = #{BLG_CONT_SEQ}
+]]>
+</select>
+<update id="update" parameterType="v2.mvc.spring.vo.BlogEditRequestVO">
+<![CDATA[
+UPDATE TB_BLG_CONT
+SET
+TITLE = #{title},
+CONT_BDY = #{contBdy}
+WHERE
+BLG_CONT_SEQ = #{blogContSeq}
+]]>
+</update>
+</mapper>

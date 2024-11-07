@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.shop.mappers.adminMapper">
+<select id="category" resultType="com.spring.shop.domain.CategoryVO">
+<![CDATA[
+select level, cateName, cateCode, cateCodeRef 
+from goods_category
+start with cateCodeRef is null connect by prior cateCode = cateCodeRef
+]]>
+</select><!-- 카테고리 계층에 맞게 level값이 커지는 구조 이를 이용하면 상하위를 구분할수 있습니다 -->
+<insert id="register"><!--  상품 등록 -->
+<![CDATA[
+insert into tbl_goods (gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsThumbImg)
+values (tbl_goods_seq.nextval, #{gdsName}, #{cateCode}, #{gdsPrice}, #{gdsStock}, #{gdsDes}, #{gdsImg}, #{gdsThumbImg})
+]]>
+</insert>
+<select id="goodslist" resultType="com.spring.shop.domain.GoodsVO">
+<![CDATA[
+select gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate
+from tbl_goods
+order by gdsNum desc
+]]>
+</select>
+<!--  <select id="goodsView" resultType="com.spring.shop.domain.GoodsVO">
+<![CDATA[
+select gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate
+from tbl_goods
+where gdsNum = #{gdsNum}
+]]> tbl_goods => g축약 goods_category => c축약
+</select>-->
+<select id="goodsView" resultType="com.spring.shop.domain.GoodsViewVO">
+<![CDATA[
+select 
+g.gdsNum, g.gdsName, g.cateCode,c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate
+from tbl_goods g
+inner join goods_category c
+on g.cateCode = c.cateCode
+where gdsNum = #{gdsNum}
+]]>
+</select>
+<update id="goodsModify">
+<![CDATA[
+update tbl_goods set gdsName = #{gdsName}, cateCode = #{cateCode}, gdsPrice = #{gdsPrice}, gdsStock = #{gdsStock}, gdsDes = #{gdsDes}, gdsImg =#{gdsImg}, gdsThumbImg = #{gdsThumbImg}
+where gdsNum = ${gdsNum}
+]]>
+</update>
+<delete id="goodsDelete">
+<![CDATA[
+delete tbl_goods where gdsNum = #{gdsNum}
+]]>
+</delete>
+</mapper>
+
+
+
+
+
+
+

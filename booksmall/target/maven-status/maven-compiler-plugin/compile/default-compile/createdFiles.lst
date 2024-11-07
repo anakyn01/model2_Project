@@ -1,0 +1,6 @@
+kyobo\kr\booksmall\mapper\MemberMapper.class
+kyobo\kr\booksmall\service\MemberServiceImpl.class
+kyobo\kr\booksmall\controller\BooksController.class
+kyobo\kr\booksmall\vo\MemberVO.class
+kyobo\kr\booksmall\controller\MemberController.class
+kyobo\kr\booksmall\service\MemberService.class
